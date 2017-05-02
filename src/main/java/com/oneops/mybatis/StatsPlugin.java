@@ -16,7 +16,7 @@ import java.util.Properties;
 @Intercepts({@Signature(type = Executor.class, method = "query", args = {MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class}), @Signature(type = Executor.class, method = "update", args = {MappedStatement.class, Object.class})})
 public class StatsPlugin implements Interceptor {
     private Log logger = LogFactory.getLog(StatsPlugin.class);
-    private Map<String, Stats> map = new HashMap<>();
+    private static Map<String, Stats> map = new HashMap<>();
 
 
     public Object intercept(Invocation invocation) throws Throwable {
@@ -36,7 +36,7 @@ public class StatsPlugin implements Interceptor {
     }
 
 
-    public Map<String, Stats> getStatsMap() {
+    public static Map<String, Stats> getStatsMap() {
         return map;
     }
 
