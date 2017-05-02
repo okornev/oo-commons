@@ -29,10 +29,14 @@ public class StatsPlugin implements Interceptor, DisposableBean{
  
 
     public Object intercept(Invocation invocation) throws Throwable {
-        String id = ((MappedStatement) invocation.getArgs()[0]).getId();
         long start = System.currentTimeMillis();
         Object proceed = invocation.proceed();
-        map.computeIfAbsent(id, t -> new Stats()).addTime(System.currentTimeMillis() - start);
+        try {
+            String id = ((MappedStatement) invocation.getArgs()[0]).getId();
+            map.computeIfAbsent(id, t -> new Stats()).addTime(System.currentTimeMillis() - start);
+        } catch (Exception e){
+            logger.warn(e, e);
+        }
         return proceed;
     }
 
